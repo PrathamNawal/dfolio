@@ -51,15 +51,18 @@ function TemplatePreview({ id }: { id: string }) {
 
 export default function ThemePanel({
   darkMode,
+  selectedTemplate,
+  onSelectTemplate,
   onToggleDarkMode,
   onClose,
 }: {
   darkMode: boolean
+  selectedTemplate: string
+  onSelectTemplate: (id: string) => void
   onToggleDarkMode: () => void
   onClose: () => void
 }) {
   const [activeTab, setActiveTab] = useState('Layouts')
-  const [selectedTemplate, setSelectedTemplate] = useState('canvas')
   const [selectedBg, setSelectedBg] = useState(0)
 
   return (
@@ -115,7 +118,7 @@ export default function ThemePanel({
               {templates.map((t) => (
                 <div
                   key={t.id}
-                  onClick={() => setSelectedTemplate(t.id)}
+                  onClick={() => onSelectTemplate(t.id)}
                   className={`rounded-xl overflow-hidden border-2 cursor-pointer transition-all relative ${
                     selectedTemplate === t.id ? 'border-accent' : 'border-transparent hover:border-border'
                   }`}
