@@ -45,60 +45,68 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-bg p-6">
-      <div className="w-full max-w-sm">
-        <div className="mb-12 text-center">
-          <h1 className="text-2xl font-bold text-text mb-2">DFolio</h1>
-          <p className="text-muted">Build your design portfolio</p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-bg p-6">
+      <div className="w-full max-w-[420px]">
+        <div className="mb-8 flex items-center justify-center gap-2.5">
+          <div className="w-9 h-9 bg-accent rounded-lg flex items-center justify-center text-white text-lg font-bold">✳</div>
+          <div className="text-lg font-bold text-text tracking-tight">DFolio</div>
         </div>
 
-        <div className="bg-card rounded-card border border-border p-8 space-y-6">
-          {magicLinkSent && (
-            <div className="bg-green-50 border border-green-200 rounded-sm p-3 text-sm text-green-700 text-center">
-              ✓ Check your email for the login link
-            </div>
-          )}
-
-          <button
-            onClick={handleGoogleSignIn}
-            disabled={loading || !supabase}
-            className="w-full flex items-center justify-center gap-2 px-5 py-3 bg-card border border-border-light rounded-btn text-text font-semibold text-sm transition hover:bg-subtle-bg disabled:opacity-50"
-          >
-            <svg className="w-4 h-4" viewBox="0 0 24 24">
-              <path fill="currentColor" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-              <path fill="currentColor" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-              <path fill="currentColor" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-              <path fill="currentColor" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-            </svg>
-            Continue with Google
-          </button>
-
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-border"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-card text-muted">or</span>
-            </div>
+        <div className="bg-card rounded-3xl border border-border p-10 space-y-7 shadow-sm">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-text tracking-tight mb-1">Build your design portfolio</h1>
+            <p className="text-sm text-muted leading-relaxed">Join designers who land roles with standout portfolios — set up in minutes.</p>
           </div>
 
-          <form onSubmit={handleMagicLinkSignIn} className="space-y-4">
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="your@email.com"
-              className="w-full px-4 py-3 border border-border rounded-btn bg-card text-text placeholder-placeholder focus:outline-none focus:border-accent"
-              required
-            />
-            <button
-              type="submit"
-              disabled={loading || !email || !supabase}
-              className="w-full px-4 py-3 bg-text text-card rounded-btn font-semibold text-sm transition hover:bg-muted disabled:opacity-50"
-            >
-              Send magic link
-            </button>
-          </form>
+          {magicLinkSent ? (
+            <div className="bg-green-50 border border-green-300 rounded-2xl p-3 text-sm text-green-700 text-center">
+              ✉️ Magic link sent to <strong>{email}</strong> — check your inbox!
+            </div>
+          ) : (
+            <>
+              <button
+                onClick={handleGoogleSignIn}
+                disabled={loading || !supabase}
+                className="w-full flex items-center justify-center gap-2.5 px-5 py-3 bg-card border border-border-light rounded-2xl text-text font-semibold text-sm transition hover:bg-subtle-bg hover:border-muted disabled:opacity-50"
+              >
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.716v2.259h2.908c1.702-1.567 2.684-3.875 2.684-6.615z" fill="#4285F4"/>
+                  <path d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z" fill="#34A853"/>
+                  <path d="M3.964 10.706A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.706V4.962H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.038l3.007-2.332z" fill="#FBBC05"/>
+                  <path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.962L3.964 6.294C4.672 4.167 6.656 3.58 9 3.58z" fill="#EA4335"/>
+                </svg>
+                Continue with Google
+              </button>
+
+              <div className="flex items-center gap-3">
+                <div className="flex-1 border-t border-border" />
+                <span className="text-xs text-muted font-medium">or use magic link</span>
+                <div className="flex-1 border-t border-border" />
+              </div>
+
+              <form onSubmit={handleMagicLinkSignIn} className="space-y-3">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="your@email.com"
+                  className="w-full px-4 py-3 border border-border-light rounded-2xl bg-card text-text text-sm placeholder-muted focus:outline-none focus:border-accent transition"
+                  required
+                />
+                <button
+                  type="submit"
+                  disabled={loading || !email || !supabase}
+                  className="w-full px-4 py-3 bg-text text-card rounded-2xl font-semibold text-sm transition hover:bg-muted disabled:opacity-50"
+                >
+                  {loading ? 'Sending...' : '✦ Send magic link'}
+                </button>
+              </form>
+            </>
+          )}
+
+          <p className="text-xs text-muted text-center leading-relaxed">
+            By continuing you agree to our <a href="#" className="text-accent font-medium hover:underline">Terms</a> and <a href="#" className="text-accent font-medium hover:underline">Privacy Policy</a>.
+          </p>
         </div>
       </div>
     </div>
