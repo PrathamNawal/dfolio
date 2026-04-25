@@ -1,33 +1,23 @@
 'use client'
 
-import type { Profile } from '@/types'
-
 export default function SkillsTicker({ skills }: { skills: string[] }) {
   if (!skills.length) return null
+  const doubled = [...skills, ...skills]
 
   return (
-    <div className="w-full max-w-xl overflow-hidden whitespace-nowrap relative">
-      <div className="inline-flex gap-0 animate-scroll">
-        {[...skills, ...skills].map((skill, i) => (
-          <div key={i} className="inline-flex items-center gap-2">
-            <span className="text-xs font-bold text-muted uppercase tracking-widest px-4">
-              {skill}
-            </span>
-            <span className="text-accent text-sm flex-shrink-0">•</span>
-          </div>
+    <div className="w-full max-w-[600px] overflow-hidden whitespace-nowrap py-2 relative">
+      <div className="inline-flex gap-0 animate-ticker">
+        {doubled.map((skill, i) => (
+          <span key={i} className="inline-flex items-center gap-2 px-[18px] text-[11px] font-semibold tracking-[0.8px] uppercase text-placeholder">
+            <span className="text-accent text-sm leading-none">+</span>
+            {skill}
+          </span>
         ))}
       </div>
       <style>{`
-        @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-scroll {
-          animation: scroll 25s linear infinite;
-        }
-        .animate-scroll:hover {
-          animation-play-state: paused;
-        }
+        @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+        .animate-ticker { animation: ticker 25s linear infinite; }
+        .animate-ticker:hover { animation-play-state: paused; }
       `}</style>
     </div>
   )
