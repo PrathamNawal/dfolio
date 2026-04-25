@@ -19,48 +19,52 @@ export default function HeroCard({ profile, onUpdate }: { profile: Profile; onUp
   }
 
   return (
-    <div className="bg-card rounded-card border border-border p-12 text-center space-y-4">
-      <div className="text-5xl mb-4">{profile.avatar_emoji}</div>
+    <div className="w-full max-w-xl bg-card rounded-card border border-border-light p-6 flex items-center gap-5">
+      <div className="w-18 h-18 bg-tag-bg rounded-sm flex items-center justify-center text-5xl flex-shrink-0">
+        {profile.avatar_emoji}
+      </div>
       
-      {editingName ? (
-        <textarea
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          onBlur={() => {
-            saveField('name', name)
-            setEditingName(false)
-          }}
-          autoFocus
-          className="w-full text-3xl font-bold text-text bg-subtle-bg border border-border rounded-btn p-3 focus:outline-none focus:border-accent"
-        />
-      ) : (
-        <h1
-          onClick={() => setEditingName(true)}
-          className="text-3xl font-bold text-text cursor-pointer hover:text-accent transition"
-        >
-          {name || 'Your name'}
-        </h1>
-      )}
+      <div className="flex-1 min-w-0">
+        {editingName ? (
+          <input
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            onBlur={() => {
+              saveField('name', name)
+              setEditingName(false)
+            }}
+            autoFocus
+            className="w-full text-xl font-bold text-text bg-transparent border-b border-accent focus:outline-none"
+          />
+        ) : (
+          <h1
+            onClick={() => setEditingName(true)}
+            className="text-xl font-bold text-text cursor-pointer hover:text-accent transition"
+          >
+            {name || 'Your name'}
+          </h1>
+        )}
 
-      {editingTagline ? (
-        <textarea
-          value={tagline}
-          onChange={(e) => setTagline(e.target.value)}
-          onBlur={() => {
-            saveField('tagline', tagline)
-            setEditingTagline(false)
-          }}
-          autoFocus
-          className="w-full text-muted bg-subtle-bg border border-border rounded-btn p-3 focus:outline-none focus:border-accent"
-        />
-      ) : (
-        <p
-          onClick={() => setEditingTagline(true)}
-          className="text-muted cursor-pointer hover:text-text transition"
-        >
-          {tagline || 'Add a tagline'}
-        </p>
-      )}
+        {editingTagline ? (
+          <input
+            value={tagline}
+            onChange={(e) => setTagline(e.target.value)}
+            onBlur={() => {
+              saveField('tagline', tagline)
+              setEditingTagline(false)
+            }}
+            autoFocus
+            className="w-full text-sm text-muted bg-transparent border-b border-accent focus:outline-none"
+          />
+        ) : (
+          <p
+            onClick={() => setEditingTagline(true)}
+            className="text-sm text-muted cursor-pointer hover:text-text transition line-clamp-2"
+          >
+            {tagline || 'Add a tagline'}
+          </p>
+        )}
+      </div>
     </div>
   )
 }

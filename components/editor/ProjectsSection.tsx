@@ -56,89 +56,93 @@ export default function ProjectsSection({ profileId, projects: initialProjects }
   const editingProject = editingId ? projects.find((p) => p.id === editingId) : null
 
   return (
-    <section className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold text-text">Projects</h2>
+    <section className="w-full max-w-xl space-y-3">
+      <div className="flex items-center justify-between px-5">
+        <h2 className="text-xs font-bold text-muted uppercase tracking-widest">Projects</h2>
         <button
           onClick={() => {
             setShowForm(!showForm)
             setEditingId(null)
           }}
-          className="px-4 py-2 bg-accent text-card rounded-btn font-semibold text-sm"
+          className="text-xs font-semibold text-accent hover:underline"
         >
           {showForm ? 'Cancel' : '+ Add'}
         </button>
       </div>
 
-      {showForm && (
-        <div className="bg-card rounded-card border border-border p-6 space-y-4">
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Project title"
-            className="w-full px-4 py-3 border border-border rounded-btn bg-card text-text placeholder-placeholder focus:outline-none focus:border-accent"
-          />
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            placeholder="Description"
-            className="w-full px-4 py-3 border border-border rounded-btn bg-card text-text placeholder-placeholder focus:outline-none focus:border-accent h-24"
-          />
-          <input
-            type="text"
-            value={tags}
-            onChange={(e) => setTags(e.target.value)}
-            placeholder="Tags (comma-separated)"
-            className="w-full px-4 py-3 border border-border rounded-btn bg-card text-text placeholder-placeholder focus:outline-none focus:border-accent"
-          />
-          <button
-            onClick={handleAddProject}
-            disabled={!title || loading}
-            className="w-full px-4 py-3 bg-accent text-card rounded-btn font-semibold transition hover:bg-accent disabled:opacity-50"
-          >
-            Create & Add Cover
-          </button>
-        </div>
-      )}
-
-      {editingProject && (
-        <div className="bg-card rounded-card border border-border p-6 space-y-4">
-          <div className="flex items-center justify-between mb-4">
-            <h3 className="font-semibold text-text">{editingProject.title}</h3>
+      <div className="bg-card rounded-card border border-border-light overflow-hidden">
+        {showForm && (
+          <div className="border-b border-border p-5 space-y-3">
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="Project title"
+              className="w-full px-3 py-2 border border-border rounded-sm bg-card text-text text-sm focus:outline-none focus:border-accent"
+            />
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder="Description"
+              className="w-full px-3 py-2 border border-border rounded-sm bg-card text-text text-sm focus:outline-none focus:border-accent h-16"
+            />
+            <input
+              type="text"
+              value={tags}
+              onChange={(e) => setTags(e.target.value)}
+              placeholder="Tags (comma-separated)"
+              className="w-full px-3 py-2 border border-border rounded-sm bg-card text-text text-sm focus:outline-none focus:border-accent"
+            />
             <button
-              onClick={() => setEditingId(null)}
-              className="text-accent hover:underline text-sm"
+              onClick={handleAddProject}
+              disabled={!title || loading}
+              className="w-full px-3 py-2 bg-text text-card rounded-sm font-semibold text-sm transition hover:bg-muted disabled:opacity-50"
             >
-              Done
+              Create & Add Cover
             </button>
           </div>
-          <ImageUpload
-            userId={profileId}
-            projectId={editingProject.id}
-            currentUrl={editingProject.cover_url}
-            onUpload={(url) => handleUpdateCover(editingProject.id, url)}
-          />
-        </div>
-      )}
+        )}
 
-      {projects.length === 0 ? (
-        <div className="text-center py-12">
-          <p className="text-muted mb-4">No projects yet. Start by adding your first project!</p>
-        </div>
-      ) : (
-        <div className="grid grid-cols-2 gap-6">
-          {projects.map((p) => (
-            <div key={p.id} className="space-y-2">
-              <ProjectCard
-                project={p}
-                onEdit={() => setEditingId(p.id)}
-                onDelete={() => handleDeleteProject(p.id)}
-              />
+        {editingProject && (
+          <div className="border-b border-border p-5 space-y-3">
+            <div className="flex items-center justify-between mb-2">
+              <h3 className="font-semibold text-text text-sm">{editingProject.title}</h3>
+              <button
+                onClick={() => setEditingId(null)}
+                className="text-accent hover:underline text-xs"
+              >
+                Done
+              </button>
             </div>
-          ))}
-        </div>
-      )}
+            <ImageUpload
+              userId={profileId}
+              projectId={editingProject.id}
+              currentUrl={editingProject.cover_url}
+              onUpload={(url) => handleUpdateCover(editingProject.id, url)}
+            />
+          </div>
+        )}
+
+        {projects.length === 0 && !showForm ? (
+          <div className="px-5 py-12 text-center">
+            <div className="text-2xl mb-2">📦</div>
+            <p className="text-sm font-semibold text-text mb-1">No projects yet</p>
+            <p className="text-xs text-muted">Start by adding your first project!</p>
+          </div>
+        ) : (
+          <div className="grid grid-cols-2 gap-3 p-5">
+            {projects.map((p) => (
+              <div key={p.id}>
+                <ProjectCard
+                  project={p}
+                  onEdit={() => setEditingId(p.id)}
+                  onDelete={() => handleDeleteProject(p.id)}
+                />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
     </section>
   )
 }
